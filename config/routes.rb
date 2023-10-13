@@ -10,9 +10,13 @@ Rails.application.routes.draw do
   }
 
   namespace :api do
+    get 'items/index'
+    post 'items/create'
+    get 'items/show'
+    delete 'items/destroy'
     get 'users/index'
     get 'users/show'
-    get 'users/destroy'
+    delete 'users/destroy'
   end
   
   root 'homepage#index'
