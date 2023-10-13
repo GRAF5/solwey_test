@@ -16,6 +16,12 @@ export default () => (
         >
           Users
         </Link>
+        <Link
+          to="/items"
+          role="button"
+        >
+          Items
+        </Link>
       </div>
     </div>
   </div>
