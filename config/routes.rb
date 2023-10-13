@@ -10,10 +10,17 @@ Rails.application.routes.draw do
   }
 
   namespace :api do
+    get 'orders_descriptions/index'
+    
+    get 'orders/index'
+    post 'orders/create'
+    get 'orders/show'
+
     get 'items/index'
     post 'items/create'
     get 'items/show'
     delete 'items/destroy'
+    
     get 'users/index'
     get 'users/show'
     delete 'users/destroy'

@@ -5,10 +5,7 @@ export default () => (
   <div>
     <div>
       <div>
-        <h1>Food Recipes</h1>
-        <p>
-          A curated list of recipes for the best homemade meal and delicacies.
-        </p>
+        <h1>Solwey Test Project</h1>
         <hr/>
         <Link
           to="/users"
@@ -21,6 +18,12 @@ export default () => (
           role="button"
         >
           Items
+        </Link>
+        <Link
+          to="/orders"
+          role="button"
+        >
+          Orders
         </Link>
       </div>
     </div>
