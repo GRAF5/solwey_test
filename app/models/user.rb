@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   enum role: [:user,   :admin]
+
+  has_many :orders
 end

@@ -51,7 +51,11 @@ const Users = () => {
       },
       body
     })
-    // .then(res => navigate('/'))
+    .then(res => res.json())
+    .then(res => {
+      localStorage.setItem('userId', res.status.data.user.id);
+      localStorage.setItem('userRole', res.status.data.user.role);
+    })
     .catch(err => console.log(err));
   }
 
@@ -66,7 +70,10 @@ const Users = () => {
       //   authenticity_token: csrfToken
       // }
      })
-    // .then(res => navigate('/'))
+    .then(res => {
+      localStorage.removeItem('userId');
+      localStorage.removeItem('userRole');
+    })
     .catch(err => console.log(err));
   }
 

@@ -35,7 +35,16 @@ const Items = () => {
       newCart.push({id, count, data: items.find(item => item.id === id)});
     }
     setCart(newCart);
-    // setCart(Object.assign(cart, {[id]: {count, data: items.find(item => item.id === id)}}));
+  }
+
+  function buy() {
+    const url = '/api/orders/create';
+    const body = new FormData();
+    body.append("order[items]", JSON.stringify(cart.map(item => {return {id: item.id, count: item.count}})));
+    fetch(url, {
+      method: 'POST',
+      body
+    });
   }
 
   const allItems = items.map((item) => (
@@ -67,7 +76,7 @@ const Items = () => {
         allItems
       }
       {
-        cart.length && <div>
+        cart.length ? <div>
           <h1>Cart</h1>
           {
             cartItems
@@ -75,8 +84,8 @@ const Items = () => {
           <p>Amount: {(Math.floor(
             cart.reduce((amount, item) => amount + item.count * item.data.price, 0)
               * 100) / 100).toFixed(2)}</p>
-          <button>Buy</button>
-        </div>
+          <button onClick={buy}>Buy</button>
+        </div> : <></>
       }
     </>
   )

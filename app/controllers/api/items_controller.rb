@@ -4,7 +4,6 @@ class Api::ItemsController < ApplicationController
   def index
     if params[:filter]
       item = Item.where("name = #{params[:filter]}")
-      p item
       render json: item
     else
       item = Item.all.order(created_at: :desc)
