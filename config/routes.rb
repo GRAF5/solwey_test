@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     delete 'items/destroy'
     
     get 'users/index'
+    put 'users/update'
     get 'users/show'
     delete 'users/destroy'
   end

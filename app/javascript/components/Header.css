@@ -1,0 +1,30 @@
+header {
+  left: 0;
+  top: 0;
+  position: fixed;
+  background-color: var(--background-color);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+header div {
+  margin: 0 35px;
+  align-items: center;
+  display: flex;
+}
+
+header a {
+  padding: 15px 10px;
+  color: var(--symbol-color);
+  text-decoration: none;
+}
+
+header a.active {
+  background-color: var(--main-color);
+  color: white;
+}
+
+header a:not(a.active):hover {
+  background-color: var(--hover-color);
+}
