@@ -7,4 +7,7 @@ class User < ApplicationRecord
   enum role: [:user,   :admin]
 
   has_many :orders
+
+  validates :firstName, presence: true
+  validates :lastName, presence: true
 end

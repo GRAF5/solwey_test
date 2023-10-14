@@ -1,0 +1,108 @@
+body {
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--symbol-color);
+
+  --background-color: #181818;
+  --foreground-color: #1f1f1f;
+  --border-color: #353535;
+  --scrollbar-foreground-color: #2b2b2b;
+  --hover-color: #303030;
+  --symbol-color: #9d9d9d;
+
+  --main-color: #1941DF;
+  --second-color: #3264FF;
+  --main-danger-color: #FF5454;
+  --second-danger-color: #ffd6db;
+}
+
+#root {
+  min-height: 100vh;
+  max-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-flow: column;
+}
+
+#content {
+  margin: 50px 0;
+  height: 100%;
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+}
+
+button, a.button {
+  width: 100%;
+  -webkit-app-region: no-drag;
+  cursor: pointer;
+  background-color: var(--main-color);
+  color: white;
+  padding: 0 20px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 41px;
+  text-decoration: none;
+  border: 0;
+}
+
+button.outlined {
+  background-color: transparent;
+  color: var(--main-color);
+  outline: 2px solid var(--main-color);
+  outline-offset: -2px;
+}
+
+button.outlined.danger {
+  outline-color: var(--main-danger-color);
+  color: var(--main-danger-color);
+  background-color: transparent;
+}
+
+button.danger {
+  background-color: var(--main-danger-color);
+}
+
+.container {
+  margin: 10px 20px;
+}
+
+.container-widjet {
+  max-width: 600px;
+  align-self: center;
+  background-color: var(--foreground-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+input {
+  width: 100%;
+  height: 41px;
+  border: 1px solid var(--border-color);
+  padding: 0 14px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  outline: none;
+  margin-bottom: 1em;
+}
+input:focus {
+  border-color: var(--second-color);
+}
+
+.errors {
+  margin: 0;
+  margin-bottom: 10px;
+  background-color: var(--second-danger-color);
+  color: var(--main-danger-color);
+  padding: 6px 16px;
+  border-radius: 3px;
+}
+
+* {
+  font-family: 'Open Sans';
+}
+*:not(h1, h2, h3, h4, h5, h6, small) {
+  font-size: 15px;
+}

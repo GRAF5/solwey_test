@@ -20,61 +20,29 @@ const Users = () => {
   }, []);
 
   function register() {
-    let csrfToken = document.querySelector("[name=csrf-token]");
     const body = new FormData();
-    body.append("user[email]", 'admin@admin.com');
-    body.append("user[password]", 'admin');
-    // body.append("user[lastName]", 'last');
-    // body.append("user[firstName]", 'first');
+    body.append("user[email]", 'user.17@admin.com');
+    body.append("user[password]", 'testtest');
+    body.append("user[lastName]", 'last');
+    body.append("user[firstName]", 'first');
     fetch("/api/signup", {
       method: "POST",
-      headers:{
-        "x-csrf-token": csrfToken.content
-      },
       body
     })
     .then(res => console.log(res))
     .catch(err => console.log(err));
   }
 
-  function login() {
-    let csrfToken = document.querySelector("[name=csrf-token]");
+  function update() {
     const body = new FormData();
-    body.append("user[email]", 'admin@admin.com');
-    body.append("user[password]", 'adminadmin');
-    // body.append("user[lastName]", 'last');
-    // body.append("user[firstName]", 'first');
-    fetch("/api/login", {
-      method: "POST",
-      headers:{
-        "x-csrf-token": csrfToken.content
-      },
+    body.append("user[id]", '2');
+    body.append("user[firstName]", 'Test');
+    body.append("user[lastName]", 'Test');
+    body.append("user[role]", 'admin');
+    fetch("/api/users/update", {
+      method: "PUT",
       body
     })
-    .then(res => res.json())
-    .then(res => {
-      localStorage.setItem('userId', res.status.data.user.id);
-      localStorage.setItem('userRole', res.status.data.user.role);
-    })
-    .catch(err => console.log(err));
-  }
-
-  function logout() {
-    let csrfToken = document.querySelector("[name=csrf-token]");
-    fetch("/api/logout", {
-      method: "DELETE",
-      headers:{
-        "x-csrf-token": csrfToken.content
-      },
-      // data: {
-      //   authenticity_token: csrfToken
-      // }
-     })
-    .then(res => {
-      localStorage.removeItem('userId');
-      localStorage.removeItem('userRole');
-    })
-    .catch(err => console.log(err));
   }
 
   const allUsers = users.map((user, index) => (
@@ -93,8 +61,7 @@ const Users = () => {
         allUsers
       }
       <button onClick={register}>Register</button>
-      <button onClick={login}>Login</button>
-      <button onClick={logout}>Logout</button>
+      <button onClick={update}>Update</button>
     </>
   )
 };
