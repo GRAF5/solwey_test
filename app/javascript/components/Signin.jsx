@@ -35,17 +35,15 @@ const Signin = ({signin}) => {
 
   return (
     <div className="container-widjet">
-      <div className="container">
-        <h1>Sign in</h1>
-        {error && <p className="errors">{error}</p>}
-        <form onSubmit={submit}> 
-          <label>Email:</label>
-          <input onChange={change} id="email" type="email"/>
-          <label>Password:</label>
-          <input onChange={change} id="password" type="password" />
-          <button>Sign in</button>
-        </form>
-      </div>
+      <h1>Sign in</h1>
+      {error && <p className="errors">{error}</p>}
+      <form onSubmit={submit}> 
+        <label>Email:</label>
+        <input onChange={change} id="email" type="email"/>
+        <label>Password:</label>
+        <input onChange={change} id="password" type="password" />
+        <button>Sign in</button>
+      </form>
     </div>
   )
 };

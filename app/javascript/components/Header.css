@@ -8,23 +8,91 @@ header {
   justify-content: space-between;
 }
 
-header div {
+header > div:not(.sidebar) {
   margin: 0 35px;
   align-items: center;
   display: flex;
 }
 
-header a {
+header a, header .a, .sidebar a, .sidebar .a {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
   padding: 15px 10px;
   color: var(--symbol-color);
   text-decoration: none;
 }
+.sidebar a, .sidebar .a {
+  padding-left: 35px;
+}
 
-header a.active {
+header details {
+  display: inline-block;
+}
+
+header details summary, .sidebar details summary {
+  list-style: none;
+}
+
+header details ul {
+  padding: 0;
+  position: fixed;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--foreground-color);
+}
+
+.sidebar details ul {
+  padding: 0;
+}
+
+.sidebar details ul li a {
+  width: -moz-available; 
+  width: -webkit-fill-available;
+  width: fill-available;
+}
+
+.sidebar {
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  height: 100%;
+  overflow: scroll;
+  align-content: start;
+}
+
+.sidebar details ul {
+  background-color: var(--foreground-color);
+}
+
+header details ul li, .sidebar details ul li {
+  list-style: none;
+}
+
+header details ul li a {
+  border-radius: 8px;
+}
+
+header a.active, .sidebar a.active  {
   background-color: var(--main-color);
   color: white;
 }
 
-header a:not(a.active):hover {
+header .a:has(ul li a.active) {
+  background-color: var(--main-color);
+  color: white;
+}
+
+header a:not(a.active):hover, header .a:hover, .sidebar a:not(a.active):hover {
   background-color: var(--hover-color);
+}
+
+.sidebar {
+  margin: 0;
+  position: fixed;
+  left: 0;
+  top: 50px;
+  display: grid;
+}
+.sidebar details[open] {
+  background-color: var(--foreground-color);
 }

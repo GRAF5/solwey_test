@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 
 const OrderDescriptions = () => {
-  const navigate = useNavigate();
   const [descriptions, setDescriptions] = useState([]);
   const { orderId } = useParams();
 
@@ -23,21 +22,30 @@ const OrderDescriptions = () => {
       .then((res) => setDescriptions(res));
   }
 
-  const allDescriptions = descriptions.map((description) => (
-    <div key={description.id}>
-      <h5>{description.item.name}</h5>
-      <p>{description.quantity}</p>
-    </div>
-  ));
-
   return (
-    <>
-      <Link to="/">Home</Link>
+    <div className="container">
       <h1>Order {orderId}</h1>
-      {
-        allDescriptions
-      }
-    </>
+      <div style={{overflowX: "auto"}}>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              descriptions.map(description => (
+                <tr key={description.id}>
+                  <td>{description.item?.name || "Item removed"}</td>
+                  <td>{description.quantity}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
   )
 };
 

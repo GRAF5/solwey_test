@@ -18,8 +18,9 @@ Rails.application.routes.draw do
 
     get 'items/index'
     post 'items/create'
+    put 'items/update'
     get 'items/show'
-    delete 'items/destroy'
+    delete 'items/destroy/:id', to: 'items#destroy'
     
     get 'users/index'
     put 'users/update'

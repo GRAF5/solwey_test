@@ -1,6 +1,6 @@
 User.create(
-  firstName: "Andrii",
-  lastName: "Bondarchuk",
+  firstName: "Admin",
+  lastName: "1",
   email: "admin@admin.com",
   password: "adminadmin",
   password_confirmation: "adminadmin",
