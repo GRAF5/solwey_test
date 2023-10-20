@@ -83,4 +83,4 @@ production:
   <<: *default
   database: solwey_test_production
   username: solwey_test
-  password: <%= ENV["SOLWEY_TEST_DATABASE_PASSWORD"] %>
+  password: <%= ENV["DATABASE_URL"] %>
