@@ -1,0 +1,18 @@
+databases:
+  - name: solwey_test
+  databaseName: solwey_test
+  user: solwey_test
+
+services:
+  - type: web
+    name: solwey_test
+    runtime: ruby
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: solwey_test
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
