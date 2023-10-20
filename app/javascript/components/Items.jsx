@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
 
 const Items = () => {
-  const navigate = useNavigate();
   const [items, setItems] = useState([]);
-  const [input, setInput] = useState('');
-  const [cart, setCart] = useState([]);
+  const [changeble, setChangeble] = useState({});
+  const [addeble, setAddeble] = useState({
+    name: "",
+    description: "",
+    price: 0
+  });
+  const [add, setAdd] = useState(false);
 
   useEffect(() => {
     getItems();
   }, []);
 
   function getItems() {
-    const filter = input
-    const url = `/api/items/index${filter ? "?filter='" + filter + "'" : ''}`;
+    const url = '/api/items/index';
     fetch(url)
       .then((res) => {
         if (res.ok) {
@@ -25,70 +26,136 @@ const Items = () => {
       .then((res) => setItems(res));
   }
 
-  function addToCart(id) {
-    const count = +document.getElementById(`${id}-count`).value;
-    const oldIndex = cart.findIndex(item => item.id === id);
-    const newCart = [...cart];
-    if (oldIndex >= 0) {
-      newCart[oldIndex].count = newCart[oldIndex].count + count;
-    } else {
-      newCart.push({id, count, data: items.find(item => item.id === id)});
-    }
-    setCart(newCart);
+  function change(e) {
+    setChangeble(state => ({...state, [e.target.id]: e.target.value}));
+  }
+  function changeAddeble(e) {
+    setAddeble(state => ({...state, [e.target.id]: e.target.value}));
   }
 
-  function buy() {
-    const url = '/api/orders/create';
+  function remove(id) {
+    fetch(`/api/items/destroy/${id}`, {
+      method: "DELETE"
+    })
+      .then(() => setItems(items.filter(item => item.id !== id)));
+  }
+
+  function updateItem() {
     const body = new FormData();
-    body.append("order[items]", JSON.stringify(cart.map(item => {return {id: item.id, count: item.count}})));
-    fetch(url, {
-      method: 'POST',
+    body.append("id", changeble.id);
+    body.append("item[name]", changeble.name || '');
+    body.append("item[description]", changeble.description || '');
+    body.append("item[price]", changeble.price);
+    fetch("/api/items/update", {
+      method: "PUT",
       body
-    });
+    })
+    .then(async res => {
+      if (res.ok) {
+        const data = (await res.json()).status.data.item;
+        let newItems = [...items];
+        const index = newItems.findIndex(item => item.id === data.id);
+        newItems[index] = data;
+        setItems(newItems);
+        setChangeble({});
+      }
+    })
   }
 
-  const allItems = items.map((item) => (
-    <div key={item.id}>
-      <h5>{item.name}</h5>
-      <p>{item.description}</p>
-      <p>{(Math.floor(item.price * 100) / 100).toFixed(2)}</p>
-      <label htmlFor={`${item.id}-count`}>Count:</label>
-      <input id={`${item.id}-count`} type="text" />
-      <button onClick={() => addToCart(item.id)}>Add</button>
-    </div>
-  ));
+  function startAdd() {
+    setAddeble({
+      name: "",
+      description: "",
+      price: 0
+    });
+    setAdd(true);
+  }
 
-  const cartItems = cart.map((item) => (
-    <div key={item.id}>
-      <h5>{item.data.name}</h5>
-      <p>{item.count}</p>
-      <p>{(Math.floor((item.data.price * item.count) * 100) / 100).toFixed(2)}</p>
-    </div>
-  ));
+  function createItem() {
+    const body = new FormData();
+    body.append("name", addeble.name || "");
+    body.append("description", addeble.description || "");
+    body.append("price", addeble.price);
+    fetch("/api/items/create", {
+      method: "POST",
+      body
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error("Network response was not ok.")
+      })
+      .then(res => {
+        const newItems = [...items];
+        newItems.unshift(res);
+        setItems(newItems);
+        setAdd(false);
+      });
+  }
 
   return (
-    <>
-      <Link to="/">Home</Link>
-      <h1>All Items</h1>
-      <input onInput={(e) => setInput(e.target.value)} type="text"/>
-      <button onClick={getItems}>Find</button>
-      {
-        allItems
-      }
-      {
-        cart.length ? <div>
-          <h1>Cart</h1>
-          {
-            cartItems
-          }
-          <p>Amount: {(Math.floor(
-            cart.reduce((amount, item) => amount + item.count * item.data.price, 0)
-              * 100) / 100).toFixed(2)}</p>
-          <button onClick={buy}>Buy</button>
-        </div> : <></>
-      }
-    </>
+    <div className="container">
+      <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+        <h1>Items</h1>
+        <button className="green min" onClick={startAdd}>
+          <h1 style={{margin: 0}}>&#43;</h1>
+          </button>
+      </div>
+      <div style={{overflowX: "auto"}}>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              add && <tr>
+                <td><input id="name" onChange={changeAddeble} value={addeble.name} /></td>
+                <td>
+                  <textarea id="description" onChange={changeAddeble} value={addeble.description} /></td>
+                <td><input id="price" onChange={changeAddeble} value={addeble.price} type="number" /></td>
+                <td style={{display: "flex", justifyContent: "end"}}>
+                  <button className="min" onClick={createItem}>Create</button>
+                  &nbsp;
+                  <button onClick={() => setAdd(false)} className="danger min">X</button>
+                </td>
+              </tr>
+            }
+            {
+              items.map(item => (
+                  item.id === changeble.id ?
+                  <tr key={item.id}>
+                    <td><input id="name" onChange={change} value={changeble.name} /></td>
+                    <td><textarea id="description" onChange={change} value={changeble.description} /></td>
+                    <td><input id="price" onChange={change} value={changeble.price} type="number" /></td>
+                    <td style={{display: "flex", justifyContent: "end"}}>
+                      <button className="min" onClick={updateItem}>Update</button>
+                      &nbsp;
+                      <button onClick={() => setChangeble({})} className="danger min">X</button>
+                    </td>
+                  </tr> : 
+                  <tr key={item.id}>
+                    <td>{item.name}</td>
+                    <td className="description">{item.description}</td>
+                    <td>{item.price.toFixed(2)}&#8372;</td>
+                    <td style={{display: "flex", justifyContent: "end"}}>
+                      <button className="min" onClick={() => setChangeble(item)}>Change</button>
+                      &nbsp;
+                      <button onClick={() => remove(item.id)} className="danger min">X</button>
+                    </td>
+                  </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
   )
-};
+}
 
 export default Items;

@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans');
+
 body {
   margin: 0;
-  background-color: var(--background-color);
+  background-color: var(--foreground-color);
   color: var(--symbol-color);
 
   --background-color: #181818;
@@ -14,6 +16,7 @@ body {
   --second-color: #3264FF;
   --main-danger-color: #FF5454;
   --second-danger-color: #ffd6db;
+  --green-color: #19c37d;
 }
 
 #root {
@@ -32,9 +35,35 @@ body {
   justify-content: center;
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table td, table th {
+  border: 0;
+  padding: 8px;
+}
+
+table tr:nth-child(even) {
+  background-color: var(--hover-color);
+}
+
+table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: var(--main-color);
+  color: white;
+}
+
+table td {
+  text-align: center;
+}
+
 button, a.button {
   width: 100%;
-  -webkit-app-region: no-drag;
+  height: fit-content;
   cursor: pointer;
   background-color: var(--main-color);
   color: white;
@@ -65,11 +94,26 @@ button.danger {
   background-color: var(--main-danger-color);
 }
 
+button.min {
+  width: fit-content;
+}
+
+button.green {
+  background-color: var(--green-color);
+  color: white;
+}
+
+button[disabled] {
+  background-color: var(--border-color);
+}
+
 .container {
-  margin: 10px 20px;
+  margin: 10px 35px;
+  width: 100%;
 }
 
 .container-widjet {
+  padding: 10px 20px;
   max-width: 600px;
   align-self: center;
   background-color: var(--foreground-color);
@@ -77,7 +121,7 @@ button.danger {
   border-radius: 8px;
 }
 
-input {
+input, select, textarea {
   width: 100%;
   height: 41px;
   border: 1px solid var(--border-color);
@@ -87,8 +131,10 @@ input {
   outline: none;
   margin-bottom: 1em;
 }
-input:focus {
-  border-color: var(--second-color);
+textarea {
+  resize: vertical;
+  height: fit-content;
+  min-height: 7em;
 }
 
 .errors {
@@ -98,6 +144,30 @@ input:focus {
   color: var(--main-danger-color);
   padding: 6px 16px;
   border-radius: 3px;
+}
+
+td.control {
+  display: flex;
+  justify-content: space-between;
+}
+
+.badge {
+  position: absolute;
+  transform: translate(80%, -80%);
+  display: flex;
+  justify-content: end;
+}
+
+.badge small {
+  margin: 0;
+  width: fit-content;
+  border-radius: 50%;
+  padding: 0 6px;
+  background-color: var(--main-color);
+}
+
+.description {
+  white-space: pre-line;
 }
 
 * {

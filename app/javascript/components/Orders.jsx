@@ -45,13 +45,35 @@ const Orders = () => {
   ));
 
   return (
-    <>
-      <Link to="/">Home</Link>
-      <h1>All Orders</h1>
-      {
-        allOrders
-      }
-    </>
+    <div className="container">
+      <h1>History of orders</h1>
+      <div style={{overflowX: "auto"}}>
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              orders.map(order => (
+                <tr key={order.id}>
+                  <td>{order.id}</td>
+                  <td>{order.amount}&#8372;</td>
+                  <td>{new Date(order.created_at).toLocaleString()}</td>
+                  <td style={{display: "flex", justifyContent: "end"}}>
+                    <Link className="button" to={`/orders/${order.id}`}>Details</Link>
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
   )
 };
 

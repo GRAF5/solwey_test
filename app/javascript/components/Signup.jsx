@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Signup = ({signin}) => {
+const Signup = () => {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     firstName: '',
@@ -38,21 +38,19 @@ const Signup = ({signin}) => {
 
   return (
     <div className="container-widjet">
-      <div className="container">
-        <h1>Sign up</h1>
-        {error && <p className="errors">{error}</p>}
-        <form onSubmit={submit}> 
-          <label>First name:</label>
-          <input onChange={change} id="firstName" type="text"/>
-          <label>Last name:</label>
-          <input onChange={change} id="lastName" type="text"/>
-          <label>Email:</label>
-          <input onChange={change} id="email" type="email"/>
-          <label>Password:</label>
-          <input onChange={change} id="password" type="password" />
-          <button>Sign up</button>
-        </form>
-      </div>
+      <h1>Sign up</h1>
+      {error && <p className="errors">{error}</p>}
+      <form onSubmit={submit}> 
+        <label>First name:</label>
+        <input onChange={change} id="firstName" type="text"/>
+        <label>Last name:</label>
+        <input onChange={change} id="lastName" type="text"/>
+        <label>Email:</label>
+        <input onChange={change} id="email" type="email"/>
+        <label>Password:</label>
+        <input onChange={change} id="password" type="password" />
+        <button>Sign up</button>
+      </form>
     </div>
   )
 };

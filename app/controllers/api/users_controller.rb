@@ -27,7 +27,8 @@ class Api::UsersController < ApplicationController
       user.save
       render json: {
           status: { 
-            code: 200, message: "Successfuly updated user"
+            code: 200, message: "Successfuly updated user",
+            data: { user: UserSerializer.new(user).serializable_hash[:data][:attributes] }
           }
         }, status: :ok
     end
