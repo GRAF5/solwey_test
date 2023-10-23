@@ -1,0 +1,19 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+.pagination > p:not(.ellipses) {
+  cursor: pointer;
+  margin: 15px 5px;
+}
+.pagination > p:not(.ellipses):not(.current):hover {
+  color: var(--second-color);
+}
+.pagination > p.current {
+  background-color: var(--main-color);
+  color: white;
+  margin: 5px 0;
+  padding: 10px 7px;
+  border-radius: 2px;
+  text-align: center;
+}

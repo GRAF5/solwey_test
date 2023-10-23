@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import Pagination from "./Pagination";
 
 const Users = () => {
-  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [change, setChange] = useState({});
   const [error, setError] = useState(null);
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, switchPage] = useState(1);
 
   useEffect(() => {
-    const url = "/api/users/index";
+    fetch("/api/users/pages")
+      .then(res => res.json())
+      .then(res => setTotalPages(res.totalPages));
+  }, []);
+
+  useEffect(() => {
+    getUsers();
+  }, [page]);
+  
+  function getUsers() {
+    const url = `/api/users/index?page=${page}`;
     fetch(url)
       .then((res) => {
         if (res.ok) {
@@ -17,8 +28,8 @@ const Users = () => {
         throw new Error("Network response was not ok.")
       })
       .then((res) => setUsers(res))
-  }, []);
-  
+  }
+
   function set(e) {
     setChange(state => ({...state, [e.target.id]: e.target.value}));
   }
@@ -107,6 +118,7 @@ const Users = () => {
           </tbody>
         </table>
       </div>
+      <Pagination current={page} total={totalPages} switchPage={switchPage}/>
     </div>
   )
 };

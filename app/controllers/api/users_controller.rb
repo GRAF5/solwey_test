@@ -1,8 +1,15 @@
 class Api::UsersController < ApplicationController
 
+  LIMIT = 10
+
   def index
-    user = User.all.order(created_at: :desc)
+    page = (params[:page] || 1).to_i
+    user = User.all.order(created_at: :desc).limit(LIMIT).offset((page - 1) * LIMIT)
     render json: user
+  end
+
+  def pages
+    render json: {totalPages: (User.select(:id).count.to_f / LIMIT).ceil}
   end
 
   def update

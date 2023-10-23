@@ -1,6 +1,8 @@
 class Api::ItemsController < ApplicationController
   before_action :set_item, only: %i[destroy update]
 
+  LIMIT = 5
+
   def index
     if params[:filter]
       item = Item.where("name = #{params[:filter]}")
@@ -9,9 +11,14 @@ class Api::ItemsController < ApplicationController
       item = Item.where(id: params[:ids])
       render json: item
     else
-      item = Item.all.order(created_at: :desc)
+      page = (params[:page] || 1).to_i
+      item = Item.all.order(created_at: :desc).limit(LIMIT).offset((page - 1) * LIMIT)
       render json: item
     end
+  end
+
+  def pages
+    render json: {totalPages: (Item.select(:id).count.to_f / LIMIT).ceil}
   end
 
   def create

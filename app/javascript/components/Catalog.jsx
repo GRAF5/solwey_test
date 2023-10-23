@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Catalog.css";
+import Pagination from "./Pagination";
 
 
 const Catalog = ({user, cart, setCart}) => {
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [input, setInput] = useState('');
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, switchPage] = useState(1);
+
+  useEffect(() => {
+    fetch("/api/items/pages")
+      .then(res => res.json())
+      .then(res => setTotalPages(res.totalPages))
+  }, []);
 
   useEffect(() => {
     getItems();
-  }, []);
+  }, [page]);
 
   function getItems() {
     const filter = input;
-    const url = `/api/items/index${filter ? "?filter='" + filter + "'" : ''}`;
+    const url = `/api/items/index?page=${page}${filter ? "&filter='" + filter + "'" : ''}`;
     fetch(url)
       .then((res) => {
         if (res.ok) {
@@ -68,6 +77,7 @@ const Catalog = ({user, cart, setCart}) => {
           allItems
         }
       </div>
+      {!input && <Pagination current={page} total={totalPages} switchPage={switchPage}/>}
     </div>
   )
 };

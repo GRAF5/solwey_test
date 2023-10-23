@@ -16,11 +16,13 @@ Rails.application.routes.draw do
     post 'orders/create'
 
     get 'items/index'
+    get 'items/pages'
     post 'items/create'
     put 'items/update'
     delete 'items/destroy/:id', to: 'items#destroy'
     
     get 'users/index'
+    get 'users/pages'
     put 'users/update'
     get 'users/show'
   end

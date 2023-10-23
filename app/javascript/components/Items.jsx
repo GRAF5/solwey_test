@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Pagination from "./Pagination";
 
 const Items = () => {
   const [items, setItems] = useState([]);
@@ -11,13 +12,25 @@ const Items = () => {
   const [add, setAdd] = useState(false);
   const [changebleError, setChangebleError] = useState(null);
   const [addebleError, setAddebleError] = useState(null);
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, switchPage] = useState(1);
 
   useEffect(() => {
-    getItems();
+    getPages()
   }, []);
+  
+  useEffect(() => {
+    getItems();
+  }, [page]);
+
+  function getPages() {
+    fetch("/api/items/pages")
+      .then(res => res.json())
+      .then(res => setTotalPages(res.totalPages));
+  }
 
   function getItems() {
-    const url = '/api/items/index';
+    const url = `/api/items/index?page=${page}`;
     fetch(url)
       .then((res) => {
         if (res.ok) {
@@ -39,7 +52,10 @@ const Items = () => {
     fetch(`/api/items/destroy/${id}`, {
       method: "DELETE"
     })
-      .then(() => setItems(items.filter(item => item.id !== id)));
+      .then(() => {
+        setItems(items.filter(item => item.id !== id));
+        getPages();
+      });
   }
 
   function updateItem() {
@@ -98,6 +114,7 @@ const Items = () => {
         newItems.unshift(res);
         setItems(newItems);
         setAdd(false);
+        getPages();
       })
       .catch(res => setAddebleError(res.message))
   }
@@ -169,6 +186,7 @@ const Items = () => {
           </tbody>
         </table>
       </div>
+      <Pagination current={page} total={totalPages} switchPage={switchPage}/>
     </div>
   )
 }
