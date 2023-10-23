@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Users = ({user}) => {
+const Users = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [change, setChange] = useState({});
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const url = "/api/users/index";
@@ -23,6 +24,7 @@ const Users = ({user}) => {
   }
 
   function updateUser() {
+    setError(null);
     const body = new FormData();
     body.append("user[id]", change.id);
     body.append("user[firstName]", change.firstName || '');
@@ -40,8 +42,11 @@ const Users = ({user}) => {
         newUsers[index] = data;
         setUsers(newUsers);
         setChange({});
+      } else {
+        throw await res.json();
       }
     })
+    .catch(err => setError(err.message))
   }
 
   return (
@@ -63,7 +68,9 @@ const Users = ({user}) => {
             {
               users.map((user) => (
                 change?.id === user.id ? 
-                <tr key={user.id}>
+                <React.Fragment key={user.id}>
+                {error && <tr className="errors"><td colSpan={5}>{error}</td></tr>}
+                <tr>
                   <td>{user.id}</td>
                   <td><input onChange={set} id="firstName" value={change.firstName} /></td>
                   <td><input onChange={set} id="lastName" value={change.lastName} /></td>
@@ -85,7 +92,8 @@ const Users = ({user}) => {
                       </svg>
                     </button>
                   </td>
-                </tr> :
+                </tr>
+                </React.Fragment> :
                 <tr key={user.id}>
                   <td>{user.id}</td>
                   <td>{user.firstName}</td>

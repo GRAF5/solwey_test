@@ -9,6 +9,8 @@ const Items = () => {
     price: 0
   });
   const [add, setAdd] = useState(false);
+  const [changebleError, setChangebleError] = useState(null);
+  const [addebleError, setAddebleError] = useState(null);
 
   useEffect(() => {
     getItems();
@@ -41,11 +43,12 @@ const Items = () => {
   }
 
   function updateItem() {
+    setChangebleError(null);
     const body = new FormData();
     body.append("id", changeble.id);
-    body.append("item[name]", changeble.name || '');
-    body.append("item[description]", changeble.description || '');
-    body.append("item[price]", changeble.price);
+    body.append("name", changeble.name || '');
+    body.append("description", changeble.description || '');
+    body.append("price", changeble.price);
     fetch("/api/items/update", {
       method: "PUT",
       body
@@ -58,8 +61,11 @@ const Items = () => {
         newItems[index] = data;
         setItems(newItems);
         setChangeble({});
+      } else {
+        throw await res.json();
       }
     })
+    .catch(err => setChangebleError(err.message))
   }
 
   function startAdd() {
@@ -72,6 +78,7 @@ const Items = () => {
   }
 
   function createItem() {
+    setAddebleError(null);
     const body = new FormData();
     body.append("name", addeble.name || "");
     body.append("description", addeble.description || "");
@@ -80,18 +87,19 @@ const Items = () => {
       method: "POST",
       body
     })
-      .then((res) => {
+      .then(async res => {
         if (res.ok) {
           return res.json();
         }
-        throw new Error("Network response was not ok.")
+        throw await res.json();
       })
       .then(res => {
         const newItems = [...items];
         newItems.unshift(res);
         setItems(newItems);
         setAdd(false);
-      });
+      })
+      .catch(res => setAddebleError(res.message))
   }
 
   return (
@@ -114,22 +122,28 @@ const Items = () => {
           </thead>
           <tbody>
             {
-              add && <tr>
-                <td><input id="name" onChange={changeAddeble} value={addeble.name} /></td>
-                <td>
-                  <textarea id="description" onChange={changeAddeble} value={addeble.description} /></td>
-                <td><input id="price" onChange={changeAddeble} value={addeble.price} type="number" /></td>
-                <td style={{display: "flex", justifyContent: "end"}}>
-                  <button className="min" onClick={createItem}>Create</button>
-                  &nbsp;
-                  <button onClick={() => setAdd(false)} className="danger min">X</button>
-                </td>
-              </tr>
+              add && 
+              <>
+                {addebleError && <tr className="errors"><td colSpan={3}>{addebleError}</td></tr>}
+                <tr>
+                  <td><input id="name" onChange={changeAddeble} value={addeble.name} /></td>
+                  <td>
+                    <textarea id="description" onChange={changeAddeble} value={addeble.description} /></td>
+                  <td><input id="price" onChange={changeAddeble} value={addeble.price} type="number" /></td>
+                  <td style={{display: "flex", justifyContent: "end"}}>
+                    <button className="min" onClick={createItem}>Create</button>
+                    &nbsp;
+                    <button onClick={() => setAdd(false)} className="danger min">X</button>
+                  </td>
+                </tr>
+              </>
             }
             {
               items.map(item => (
                   item.id === changeble.id ?
-                  <tr key={item.id}>
+                  <React.Fragment key={item.id}>
+                  {changebleError && <tr className="errors"><td colSpan={3}>{changebleError}</td></tr>}
+                  <tr>
                     <td><input id="name" onChange={change} value={changeble.name} /></td>
                     <td><textarea id="description" onChange={change} value={changeble.description} /></td>
                     <td><input id="price" onChange={change} value={changeble.price} type="number" /></td>
@@ -138,7 +152,8 @@ const Items = () => {
                       &nbsp;
                       <button onClick={() => setChangeble({})} className="danger min">X</button>
                     </td>
-                  </tr> : 
+                  </tr>
+                  </React.Fragment> : 
                   <tr key={item.id}>
                     <td>{item.name}</td>
                     <td className="description">{item.description}</td>

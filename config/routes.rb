@@ -14,18 +14,15 @@ Rails.application.routes.draw do
     
     get 'orders/index'
     post 'orders/create'
-    get 'orders/show'
 
     get 'items/index'
     post 'items/create'
     put 'items/update'
-    get 'items/show'
     delete 'items/destroy/:id', to: 'items#destroy'
     
     get 'users/index'
     put 'users/update'
     get 'users/show'
-    delete 'users/destroy'
   end
   
   root 'homepage#index'
