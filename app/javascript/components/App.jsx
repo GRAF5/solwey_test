@@ -55,7 +55,7 @@ export default props => {
             <Route path="/orders/:orderId" element={<OrderDescriptions />} />
             <Route path="/signin" element={<Signin signin={signin}/>} />
             <Route path="/signup" element={<Signup/>} />
-            <Route path="/users/:id" element={<Account user={user}/>} />
+            <Route path="/users/:id" element={<Account user={user} signin={signin}/>} />
             <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
           </Routes>
         </Router>

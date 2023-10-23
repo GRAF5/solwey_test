@@ -18,7 +18,7 @@ const Header = ({user, logout, cart}) => {
 
   const closeAdminDetails = () => document
     .getElementById('administration-details')
-    .removeAttribute('open');
+    ?.removeAttribute('open');
   
   const cangeSidebarVisible = () => setSidebar(!sidebar);
   

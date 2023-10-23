@@ -1,5 +1,4 @@
 class Api::UsersController < ApplicationController
-  before_action :set_user, only: %i[show, destroy]
 
   def index
     user = User.all.order(created_at: :desc)
@@ -7,43 +6,52 @@ class Api::UsersController < ApplicationController
   end
 
   def update
-    if current_user.id != params[:user][:id].to_i && current_user.role != "admin"
+    if current_user.nil?
+      render json: {
+        status: { 
+          code: 403, message: "Can't update user"
+        }
+      }, status: :forbidden
+    elsif params[:user][:id] && current_user.id != params[:user][:id].to_i && current_user.role != "admin"
       render json: {
         status: { 
           code: 403, message: "Can't update user"
         }
       }, status: :forbidden
     else
-      user = params[:user][:id] != nil ? User.find(params[:user][:id]) : current_user
-      if params[:user][:firstName]
-        user.firstName = params[:user][:firstName]
+      user = params[:user][:id] ? User.find(params[:user][:id]) : current_user
+      if current_user.role == "admin"
+        @params = user_update_admin_params
+      else
+        @params = user_update_params
       end
-      if params[:user][:lastName]
-        user.lastName = params[:user][:lastName]
-      end
-      if params[:user][:role] && current_user.role == "admin"
-        user.role = params[:user][:role]
-      end
-      user.save
-      render json: {
-          status: { 
-            code: 200, message: "Successfuly updated user",
-            data: { user: UserSerializer.new(user).serializable_hash[:data][:attributes] }
+      if user.update(@params)
+        render json: {
+        status: { 
+          code: 200, message: "Successfuly updated user",
+          data: { user: UserSerializer.new(user).serializable_hash[:data][:attributes] }
           }
         }, status: :ok
+      else
+        user.reload
+        render json: {
+          message: "#{user.errors.full_messages.to_sentence}"
+        }, status: :unprocessable_entity
+      end
     end
   end
-
-  def show
-    render json: @user
-  end
-
-  def destroy
-    @user&.destroy
-    render json: { message: 'User deleted' }
-  end
   
+  private
+
   def set_user
     @user = User.find(params[:id])
+  end
+  
+  def user_update_params
+    params.require(:user).permit(:firstName, :lastName)
+  end
+
+  def user_update_admin_params
+    params.require(:user).permit(:firstName, :lastName, :role)
   end
 end

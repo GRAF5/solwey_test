@@ -1,32 +1,39 @@
 class Api::OrdersController < ApplicationController
   def index
     user = current_user
-
-    item = Order.where(user_id: user.id)
-    render json: item
+    if user.nil?
+      head :forbidden
+    else
+      item = Order.where(user_id: user.id)
+      render json: item
+    end
   end
 
   def create
     user = current_user
-    
-    amount = 0
-    items = JSON.parse(params[:order][:items])
-    items.each do |item|
-      item_doc = Item.find(item['id'])
-      amount += item['count'] * item_doc.price
-    end
-    order = Order.create!(user: user, amount: amount)
-    if order
+    if user.nil?
+      head :forbidden
+    else
+      amount = 0
+      items = JSON.parse(params[:order][:items])
       items.each do |item|
         item_doc = Item.find(item['id'])
-        OrdersDescription.create!(item: item_doc, order: order, quantity: item['count'])
+        amount += item['count'] * item_doc.price
       end
-      render json: order
-    else
-      render json: order.errors
+      if items.length == 0 
+        head :bad_request
+      else
+        order = Order.create!(user: user, amount: amount)
+        if order
+          items.each do |item|
+            item_doc = Item.find(item['id'])
+            OrdersDescription.create!(item: item_doc, order: order, quantity: item['count'])
+          end
+          render json: order
+        else
+          render json: order.errors
+        end
+      end
     end
-  end
-
-  def show
   end
 end
