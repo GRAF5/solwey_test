@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "./Catalog.css";
 
 
-const Catalog = ({cart, setCart}) => {
+const Catalog = ({user, cart, setCart}) => {
+  const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [input, setInput] = useState('');
 
@@ -25,6 +26,10 @@ const Catalog = ({cart, setCart}) => {
   }
 
   function addToCart(id) {
+    if (!user) {
+      navigate('/signin');
+      return;
+    }
     const count = Math.floor(+(document.getElementById(`${id}-count`).value));
     const oldIndex = cart.findIndex(item => item.id === id);
     const newCart = [...cart];

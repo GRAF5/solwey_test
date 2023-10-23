@@ -45,7 +45,7 @@ table td, table th {
   padding: 8px;
 }
 
-table tr:nth-child(even) {
+td:not(.errors) > tr:nth-child(even) {
   background-color: var(--hover-color);
 }
 
@@ -68,7 +68,7 @@ button, a.button {
   background-color: var(--main-color);
   color: white;
   padding: 0 20px;
-  border-radius: 7px;
+  border-radius: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -118,7 +118,7 @@ button[disabled] {
   align-self: center;
   background-color: var(--foreground-color);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 0px;
 }
 
 input, select, textarea {
@@ -127,7 +127,7 @@ input, select, textarea {
   border: 1px solid var(--border-color);
   padding: 0 14px;
   box-sizing: border-box;
-  border-radius: 8px;
+  border-radius: 0px;
   outline: none;
   margin-bottom: 1em;
 }
@@ -143,7 +143,7 @@ textarea {
   background-color: var(--second-danger-color);
   color: var(--main-danger-color);
   padding: 6px 16px;
-  border-radius: 3px;
+  border-radius: 0px;
 }
 
 td.control {

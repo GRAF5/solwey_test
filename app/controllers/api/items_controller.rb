@@ -1,5 +1,5 @@
 class Api::ItemsController < ApplicationController
-  before_action :set_item, only: %i[show destroy update]
+  before_action :set_item, only: %i[destroy update]
 
   def index
     if params[:filter]
@@ -15,16 +15,26 @@ class Api::ItemsController < ApplicationController
   end
 
   def create
-    item = Item.create!(item_params)
-    if item
-      render json: item
+    if current_user.nil? || current_user.role != "admin"
+      render json: {
+        status: { 
+          code: 403, message: "Can't update item"
+        }
+      }, status: :forbidden
     else
-      render json: item.errors
+      item = Item.create(item_params)
+      if item.valid?
+        render json: item
+      else
+        render json: {
+          message: "#{item.errors.full_messages.to_sentence}"
+        }, status: :unprocessable_entity
+      end
     end
   end
   
   def update
-    if current_user.role != "admin"
+    if current_user.nil? || current_user.role != "admin"
       render json: {
         status: { 
           code: 403, message: "Can't update item"
@@ -46,18 +56,24 @@ class Api::ItemsController < ApplicationController
             }
           }, status: :ok
       else
-        render json: @item.errors, status: :unprocessable_entity
+        render json: {
+          message: "#{@item.errors.full_messages.to_sentence}"
+        }, status: :unprocessable_entity
       end
     end
   end
 
-  def show
-    render json: @item
-  end
-
   def destroy
-    @item&.destroy
-    render json: { message: 'Item removed' }
+    if current_user.nil? || current_user.role != "admin"
+      render json: {
+        status: { 
+          code: 403, message: "Can't update item"
+        }
+      }, status: :forbidden
+    else
+      @item&.destroy
+      render json: { message: 'Item removed' }
+    end
   end
 
   def set_item
