@@ -16,7 +16,7 @@ const Items = () => {
   const [page, switchPage] = useState(1);
 
   useEffect(() => {
-    getPages()
+    getPages();
   }, []);
   
   useEffect(() => {
@@ -165,9 +165,9 @@ const Items = () => {
                     <td><textarea id="description" onChange={change} value={changeble.description} /></td>
                     <td><input id="price" onChange={change} value={changeble.price} type="number" /></td>
                     <td style={{display: "flex", justifyContent: "end"}}>
-                      <button className="min" onClick={updateItem}>Update</button>
+                      <button className="green min" onClick={updateItem}>&#10004;</button>
                       &nbsp;
-                      <button onClick={() => setChangeble({})} className="danger min">X</button>
+                      <button onClick={() => setChangeble({})} className="danger min">&#10006;</button>
                     </td>
                   </tr>
                   </React.Fragment> : 
@@ -178,7 +178,7 @@ const Items = () => {
                     <td style={{display: "flex", justifyContent: "end"}}>
                       <button className="min" onClick={() => setChangeble(item)}>Change</button>
                       &nbsp;
-                      <button onClick={() => remove(item.id)} className="danger min">X</button>
+                      <button onClick={() => remove(item.id)} className="danger min">&#10006;</button>
                     </td>
                   </tr>
               ))

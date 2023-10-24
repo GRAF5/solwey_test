@@ -104,6 +104,7 @@ button.green {
 }
 
 button[disabled] {
+  cursor: not-allowed;
   background-color: var(--border-color);
 }
 

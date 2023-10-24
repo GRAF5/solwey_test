@@ -50,7 +50,7 @@ export default props => {
             <Route path="/" element={<Home />} />
             <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/items" element={<Items />} />
-            <Route path="/items" element={<Catalog cart={cart} setCart={setCart} />} />
+            <Route path="/items" element={<Catalog cart={cart} setCart={setCart} user={user} />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/orders/:orderId" element={<OrderDescriptions />} />
             <Route path="/signin" element={<Signin signin={signin}/>} />
