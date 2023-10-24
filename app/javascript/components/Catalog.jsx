@@ -40,6 +40,10 @@ const Catalog = ({user, cart, setCart}) => {
       return;
     }
     const count = Math.floor(+(document.getElementById(`${id}-count`).value));
+    if (count <= 0) {
+      document.getElementById(`${id}-count`).value = "";
+      return;
+    }
     const oldIndex = cart.findIndex(item => item.id === id);
     const newCart = [...cart];
     if (oldIndex >= 0) {
@@ -48,6 +52,7 @@ const Catalog = ({user, cart, setCart}) => {
       newCart.push({id, count});
     }
     setCart(newCart);
+    navigate("/cart");
   }
 
   const allItems = items.map((item) => (

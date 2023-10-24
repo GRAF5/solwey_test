@@ -6,7 +6,7 @@ const Pagination = ({total, current, switchPage}) => {
   return (
     <div className="pagination">
       {current > 2 && <p tabIndex={0} onClick={() => switchPage(1)}>{1}</p>}
-      {current > 2 && <p className="ellipses">...</p>}
+      {current > 3 && <p className="ellipses">...</p>}
       {current > 1 && <p tabIndex={0} onClick={() => switchPage(current - 1)}>{current - 1}</p>}
       <p className="current">{current}</p>
       {total - current > 1 && <p tabIndex={0} onClick={() => switchPage(current + 1)}>{current + 1}</p>}

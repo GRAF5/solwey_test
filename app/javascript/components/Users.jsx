@@ -85,15 +85,15 @@ const Users = () => {
                   <td>{user.id}</td>
                   <td><input onChange={set} id="firstName" value={change.firstName} /></td>
                   <td><input onChange={set} id="lastName" value={change.lastName} /></td>
-                  <td><input onChange={set} id="email" value={change.email} /></td>
+                  <td>{user.email}</td>
                   <td><select onChange={set} id="role" value={change.role}>
                       <option value="user">user</option>
                       <option value="admin">admin</option>
                     </select></td>
                   <td className="control">
-                    <button className="green" onClick={updateUser}>&#10004;</button>
+                    <button className="green min" onClick={updateUser}>&#10004;</button>
                     &nbsp;
-                    <button className="danger" onClick={() => setChange({})}>&#10006;</button>
+                    <button className="danger min" onClick={() => setChange({})}>&#10006;</button>
                   </td>
                 </tr>
                 </React.Fragment> :
@@ -103,7 +103,7 @@ const Users = () => {
                   <td>{user.lastName}</td>
                   <td>{user.email}</td>
                   <td>{user.role}</td>
-                  <td><button onClick={() => setChange(user)}>Change</button></td>
+                  <td className="control"><button onClick={() => setChange(user)}>Change</button></td>
                 </tr>
               ))
             }

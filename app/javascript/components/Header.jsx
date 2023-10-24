@@ -68,7 +68,7 @@ const Header = ({user, logout, cart}) => {
         <div>
           {
             user ? <>
-              <Link to={`/users/${user.id}`}>Hi, {user.firstName} {user.lastName}</Link>
+              <Link to={`/users/${user.id}`} style={{whiteSpace: "nowrap"}}>Hi, {user.firstName} {user.lastName}</Link>
               <Link to="/cart">
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 

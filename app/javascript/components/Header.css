@@ -14,7 +14,7 @@ header > div:not(.sidebar) {
   display: flex;
 }
 
-header a, header .a, .sidebar a, .sidebar .a {
+:is(header, .sidebar) :is(a, .a) {
   align-items: center;
   cursor: pointer;
   display: flex;
@@ -22,7 +22,7 @@ header a, header .a, .sidebar a, .sidebar .a {
   color: var(--symbol-color);
   text-decoration: none;
 }
-.sidebar a, .sidebar .a {
+.sidebar :is(a, .a) {
   padding-left: 35px;
 }
 
@@ -53,10 +53,10 @@ header details ul {
 }
 
 .sidebar {
+  overflow: auto;
   background-color: var(--background-color);
   border: 1px solid var(--border-color);
   height: 100%;
-  overflow: scroll;
   align-content: start;
 }
 
