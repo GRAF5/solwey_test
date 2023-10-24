@@ -30,20 +30,18 @@ header details {
   display: inline-block;
 }
 
-header details summary, .sidebar details summary {
+:is(header, .sidebar) details summary {
   list-style: none;
 }
 
 header details ul {
+  transform: translateX(-10px);
   padding: 0;
   position: fixed;
   border: 1px solid var(--border-color);
+  border-top: 0px;
   border-radius: 0px;
   background-color: var(--foreground-color);
-}
-
-.sidebar details ul {
-  padding: 0;
 }
 
 .sidebar details ul li a {
@@ -61,10 +59,11 @@ header details ul {
 }
 
 .sidebar details ul {
+  padding: 0;
   background-color: var(--foreground-color);
 }
 
-header details ul li, .sidebar details ul li {
+:is(header, .sidebar) details > ul > li {
   list-style: none;
 }
 
@@ -72,7 +71,7 @@ header details ul li a {
   border-radius: 0px;
 }
 
-header a.active, .sidebar a.active  {
+:is(header, .sidebar) a.active  {
   background-color: var(--main-color);
   color: white;
 }
