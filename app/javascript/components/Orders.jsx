@@ -64,7 +64,7 @@ const Orders = () => {
                   <td>{order.id}</td>
                   <td>{order.amount}&#8372;</td>
                   <td>{new Date(order.created_at).toLocaleString()}</td>
-                  <td style={{display: "flex", justifyContent: "end"}}>
+                  <td className="control">
                     <Link className="button" to={`/orders/${order.id}`}>Details</Link>
                   </td>
                 </tr>

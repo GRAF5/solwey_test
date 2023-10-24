@@ -134,7 +134,7 @@ const Items = () => {
               <th>Name</th>
               <th>Description</th>
               <th>Price</th>
-              <th></th>
+              <th>Control</th>
             </tr>
           </thead>
           <tbody>
@@ -147,10 +147,10 @@ const Items = () => {
                   <td>
                     <textarea id="description" onChange={changeAddeble} value={addeble.description} /></td>
                   <td><input id="price" onChange={changeAddeble} value={addeble.price} type="number" /></td>
-                  <td style={{display: "flex", justifyContent: "end"}}>
-                    <button className="min" onClick={createItem}>Create</button>
+                  <td className="control">
+                    <button className="green min" onClick={createItem}>Create</button>
                     &nbsp;
-                    <button onClick={() => setAdd(false)} className="danger min">X</button>
+                    <button onClick={() => setAdd(false)} className="danger min">&#10006;</button>
                   </td>
                 </tr>
               </>
@@ -164,7 +164,7 @@ const Items = () => {
                     <td><input id="name" onChange={change} value={changeble.name} /></td>
                     <td><textarea id="description" onChange={change} value={changeble.description} /></td>
                     <td><input id="price" onChange={change} value={changeble.price} type="number" /></td>
-                    <td style={{display: "flex", justifyContent: "end"}}>
+                    <td className="control">
                       <button className="green min" onClick={updateItem}>&#10004;</button>
                       &nbsp;
                       <button onClick={() => setChangeble({})} className="danger min">&#10006;</button>
@@ -175,7 +175,7 @@ const Items = () => {
                     <td>{item.name}</td>
                     <td className="description">{item.description}</td>
                     <td>{item.price.toFixed(2)}&#8372;</td>
-                    <td style={{display: "flex", justifyContent: "end"}}>
+                    <td className="control">
                       <button className="min" onClick={() => setChangeble(item)}>Change</button>
                       &nbsp;
                       <button onClick={() => remove(item.id)} className="danger min">&#10006;</button>
