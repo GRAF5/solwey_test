@@ -61,7 +61,7 @@ const Cart = ({cart, setCart}) => {
                   <td>{item.count}</td>
                   <td>{(Math.floor(item.count * item.price * 100) / 100).toFixed(2)}&#8372;</td>
                   <td style={{display: "flex", justifyContent: "end"}}>
-                    <button onClick={() => remove(item.id)} className="danger min">X</button>
+                    <button onClick={() => remove(item.id)} className="danger min">&#10006;</button>
                   </td>
                 </tr>
               ))

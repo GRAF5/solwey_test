@@ -1,7 +1,7 @@
 class Api::ItemsController < ApplicationController
   before_action :set_item, only: %i[destroy update]
 
-  LIMIT = 5
+  LIMIT = 10
 
   def index
     if params[:filter]

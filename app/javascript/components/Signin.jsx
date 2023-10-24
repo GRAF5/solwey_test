@@ -33,6 +33,10 @@ const Signin = ({signin}) => {
     setInputs(state => ({...state, [e.target.id]: e.target.value}));
   }
 
+  function valid() {
+    return !!(inputs.email && inputs.password)
+  }
+
   return (
     <div className="container-widjet">
       <h1>Sign in</h1>
@@ -42,7 +46,7 @@ const Signin = ({signin}) => {
         <input onChange={change} id="email" type="email"/>
         <label>Password:</label>
         <input onChange={change} id="password" type="password" />
-        <button>Sign in</button>
+        <button disabled={!valid()}>Sign in</button>
       </form>
     </div>
   )

@@ -36,6 +36,10 @@ const Signup = () => {
     setInputs(state => ({...state, [e.target.id]: e.target.value}));
   }
 
+  function valid() {
+    return !!(inputs.firstName && inputs.lastName && inputs.email && inputs.password)
+  }
+
   return (
     <div className="container-widjet">
       <h1>Sign up</h1>
@@ -49,7 +53,7 @@ const Signup = () => {
         <input onChange={change} id="email" type="email"/>
         <label>Password:</label>
         <input onChange={change} id="password" type="password" />
-        <button>Sign up</button>
+        <button disabled={!valid()}>Sign up</button>
       </form>
     </div>
   )
